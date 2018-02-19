@@ -1,9 +1,7 @@
 package hello.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.*;
 import java.sql.Date;
 
 @Entity
@@ -17,6 +15,9 @@ public class Job {
     private String description;
     private Boolean available;
     private Long customerID;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<EmployeeAssignment> employeeAssignments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -64,6 +65,14 @@ public class Job {
 
     public void setCustomerID(Long customerID) {
         this.customerID = customerID;
+    }
+
+    public Set<EmployeeAssignment> getEmployeeAssignments() {
+        return employeeAssignments;
+    }
+
+    public void setEmployeeAssignments(Set<EmployeeAssignment> employeeAssignments) {
+        this.employeeAssignments = employeeAssignments;
     }
 
     public Job merge(Job jobToMerge) {

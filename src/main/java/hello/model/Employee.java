@@ -1,6 +1,7 @@
 package hello.model;
 
 import javax.persistence.*;
+import java.util.*;
 import java.sql.Date;
 
 @Entity
@@ -16,6 +17,9 @@ public class Employee extends Person {
 
     @OneToOne(cascade = CascadeType.ALL)
     private EmergencyContact emergencyContact;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<EmployeeAssignment> employeeAssignments = new HashSet<>();
 
     public Date getBirthDate() {
         return birthDate;
@@ -87,6 +91,14 @@ public class Employee extends Person {
 
     public void setEmergencyContact(EmergencyContact emergencyContact) {
         this.emergencyContact = emergencyContact;
+    }
+
+    public Set<EmployeeAssignment> getEmployeeAssignments() {
+        return employeeAssignments;
+    }
+
+    public void setEmployeeAssignments(Set<EmployeeAssignment> employeeAssignments) {
+        this.employeeAssignments = employeeAssignments;
     }
 
     public Employee merge(Employee employeeToMerge) {
