@@ -1,5 +1,7 @@
 package hello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,8 @@ public class EmergencyContact {
     private String homePhoneNumber;
     private String workPhoneNumber;
     private String cellPhoneNumber;
+
+    @JsonIgnore
     @OneToOne
     @PrimaryKeyJoinColumn
     private Employee employee;

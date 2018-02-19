@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import hello.model.Employee;
-import hello.model.EmergencyContact;
 import hello.repository.EmployeeRepository;
-import hello.repository.EmergencyContactRepository;
 
 import javax.validation.Valid;
 
@@ -17,9 +15,6 @@ import javax.validation.Valid;
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
-
-    @Autowired
-    private EmergencyContactRepository emergencyContactRepository;
 
     @PostMapping("")
     public @ResponseBody Employee createEmployee(@Valid @RequestBody Employee employee) {
