@@ -1,12 +1,13 @@
 # capstone-title_tbd
 
-add file src/main/resources/application.properties
-```
-spring.datasource.url=jdbc:mysql://[uri]:[port]/[db]?useSSL=false
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-
-# Hibernate ddl auto (create, create-drop, validate, update)
-spring.jpa.hibernate.ddl-auto=update
-
-```
+<ol>
+  <li>have Java (preferably 9) and Gradle installed</li>
+  <li>create folder "resources" in "src/main"</li>
+  <li>put "application.properites" file (from google drive) in "src/main/resources"</li>
+  <li>
+    run run-project.cmd on Windows or run-project.sh on Mac/Linux
+    <ol>
+      <li>if Java version is less than 9 remove "--add-modules java.xml.bind" from the script</li>
+    </ol>
+  </li> 
+</ol>
