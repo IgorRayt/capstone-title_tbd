@@ -86,4 +86,9 @@ public class Employee extends Person {
     public void setEmergencyContactID(Long emergencyContactID) {
         this.emergencyContactID = emergencyContactID;
     }
+
+    public Employee merge(Employee employeeToMerge) {
+        employeeToMerge.setId(this.getId());
+        return employeeToMerge;
+    }
 }

@@ -65,4 +65,9 @@ public class Job {
     public void setCustomerID(Long customerID) {
         this.customerID = customerID;
     }
+
+    public Job merge(Job jobToMerge) {
+        jobToMerge.setId(this.getId());
+        return jobToMerge;
+    }
 }

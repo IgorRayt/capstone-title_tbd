@@ -31,4 +31,9 @@ public class Customer extends Person {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
+    public Customer merge(Customer customerToMerge) {
+        customerToMerge.setId(this.getId());
+        return customerToMerge;
+    }
 }
