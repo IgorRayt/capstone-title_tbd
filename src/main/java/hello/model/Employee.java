@@ -1,6 +1,6 @@
 package hello.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
@@ -13,7 +13,9 @@ public class Employee extends Person {
     private String phoneNumber;
     private String postalCode;
     private Long employmentID;
-    private Long emergencyContactID;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private EmergencyContact emergencyContact;
 
     public Date getBirthDate() {
         return birthDate;
@@ -79,12 +81,12 @@ public class Employee extends Person {
         this.employmentID = employmentID;
     }
 
-    public Long getEmergencyContactID() {
-        return emergencyContactID;
+    public EmergencyContact getEmergencyContact() {
+        return emergencyContact;
     }
 
-    public void setEmergencyContactID(Long emergencyContactID) {
-        this.emergencyContactID = emergencyContactID;
+    public void setEmergencyContact(EmergencyContact emergencyContact) {
+        this.emergencyContact = emergencyContact;
     }
 
     public Employee merge(Employee employeeToMerge) {
