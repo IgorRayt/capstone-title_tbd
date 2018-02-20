@@ -16,8 +16,9 @@ public class Job {
     private Boolean available;
     private Long customerID;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<EmployeeAssignment> employeeAssignments = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "employee_assignments")
+    private Set<Employee> employees = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -67,12 +68,12 @@ public class Job {
         this.customerID = customerID;
     }
 
-    public Set<EmployeeAssignment> getEmployeeAssignments() {
-        return employeeAssignments;
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEmployeeAssignments(Set<EmployeeAssignment> employeeAssignments) {
-        this.employeeAssignments = employeeAssignments;
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 
     public Job merge(Job jobToMerge) {

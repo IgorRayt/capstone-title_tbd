@@ -1,5 +1,7 @@
 package hello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 import java.sql.Date;
@@ -18,8 +20,9 @@ public class Employee extends Person {
     @OneToOne(cascade = CascadeType.ALL)
     private EmergencyContact emergencyContact;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<EmployeeAssignment> employeeAssignments = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "employees")
+    private Set<Job> jobs = new HashSet<>();
 
     public Date getBirthDate() {
         return birthDate;
@@ -93,12 +96,12 @@ public class Employee extends Person {
         this.emergencyContact = emergencyContact;
     }
 
-    public Set<EmployeeAssignment> getEmployeeAssignments() {
-        return employeeAssignments;
+    public Set<Job> getJobs() {
+        return jobs;
     }
 
-    public void setEmployeeAssignments(Set<EmployeeAssignment> employeeAssignments) {
-        this.employeeAssignments = employeeAssignments;
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
     }
 
     public Employee merge(Employee employeeToMerge) {
