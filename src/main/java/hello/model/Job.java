@@ -16,6 +16,7 @@ public class Job {
     private Boolean available;
     private Long customerID;
 
+    // make a table called "employee_assignments" to handle the ManyToMany relationship with Employee
     @ManyToMany
     @JoinTable(name = "employee_assignments")
     private Set<Employee> employees = new HashSet<>();

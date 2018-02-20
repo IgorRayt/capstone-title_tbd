@@ -20,6 +20,12 @@ public class Employee extends Person {
     @OneToOne(cascade = CascadeType.ALL)
     private EmergencyContact emergencyContact;
 
+    /*
+     ManyToMany relationship si managed by employees in the Job model.
+
+     JsonIgnore --> don't send the jobs connected to an employee when getting an employee.
+     This prevents infinite recursion.
+     */
     @JsonIgnore
     @ManyToMany(mappedBy = "employees")
     private Set<Job> jobs = new HashSet<>();

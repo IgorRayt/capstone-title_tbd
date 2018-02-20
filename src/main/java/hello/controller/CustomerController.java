@@ -17,7 +17,8 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @PostMapping("")
-    public @ResponseBody Customer createCustomer(@Valid @RequestBody Customer customer) {
+    public @ResponseBody
+    Customer createCustomer(@Valid @RequestBody Customer customer) {
         return customerRepository.save(customer);
     }
 
@@ -31,7 +32,7 @@ public class CustomerController {
     @GetMapping("{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") Long customerId) {
         Customer customer = customerRepository.findOne(customerId);
-        if(customer == null) {
+        if (customer == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(customer);
@@ -41,7 +42,7 @@ public class CustomerController {
     public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long customerId,
                                                    @Valid @RequestBody Customer customerDetails) {
         Customer customer = customerRepository.findOne(customerId);
-        if(customer == null) {
+        if (customer == null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -52,7 +53,7 @@ public class CustomerController {
     @DeleteMapping("{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable(value = "id") Long customerId) {
         Customer customer = customerRepository.findOne(customerId);
-        if(customer == null) {
+        if (customer == null) {
             return ResponseEntity.notFound().build();
         }
 

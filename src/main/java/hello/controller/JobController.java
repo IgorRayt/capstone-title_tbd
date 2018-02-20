@@ -24,7 +24,8 @@ public class JobController {
     private EmployeeRepository employeeRepository;
 
     @PostMapping("")
-    public @ResponseBody Job createJob(@Valid @RequestBody Job job) {
+    public @ResponseBody
+    Job createJob(@Valid @RequestBody Job job) {
         return jobRepository.save(job);
     }
 
@@ -37,7 +38,7 @@ public class JobController {
     @GetMapping("{id}")
     public ResponseEntity<Job> getJobById(@PathVariable(value = "id") Long jobId) {
         Job job = jobRepository.findOne(jobId);
-        if(job == null) {
+        if (job == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(job);
@@ -45,9 +46,9 @@ public class JobController {
 
     @PutMapping("{id}")
     public ResponseEntity<Job> updateJob(@PathVariable(value = "id") Long jobId,
-                                                   @Valid @RequestBody Job jobDetails) {
+                                         @Valid @RequestBody Job jobDetails) {
         Job job = jobRepository.findOne(jobId);
-        if(job == null) {
+        if (job == null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -55,20 +56,18 @@ public class JobController {
         return ResponseEntity.ok(updatedJob);
     }
 
+    // add an employee to a job
     @PutMapping("{id}/{employeeId}")
     public ResponseEntity<Job> addEmployeeToJob(
             @PathVariable(value = "id") Long jobId,
-            @PathVariable(value = "employeeId") Long employeeId)
-    {
-        System.out.println("PUT {id}/{employeeId}");
+            @PathVariable(value = "employeeId") Long employeeId
+    ) {
         Job job = jobRepository.findOne(jobId);
-        if(job == null) {
-            System.out.println("job is null");
+        if (job == null) {
             return ResponseEntity.notFound().build();
         }
         Employee employee = employeeRepository.findOne(employeeId);
-        if(employee == null) {
-            System.out.println("employee is null");
+        if (employee == null) {
             return ResponseEntity.notFound().build();
         }
 
@@ -77,14 +76,21 @@ public class JobController {
         Job updatedJob = jobRepository.save(job);
 
         return ResponseEntity.ok(updatedJob);
+    }
 
-        // return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null);
+    // remove an employee from a job TODO
+    @DeleteMapping("{id}/{employeeId}")
+    public ResponseEntity<Job> deleteEmployeeFromJob(
+            @PathVariable(value = "id") Long jobId,
+            @PathVariable(value = "employeeId") Long employeeId
+    ) {
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(null);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Job> deleteJob(@PathVariable(value = "id") Long jobId) {
         Job job = jobRepository.findOne(jobId);
-        if(job == null) {
+        if (job == null) {
             return ResponseEntity.notFound().build();
         }
 
