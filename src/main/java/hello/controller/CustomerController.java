@@ -1,6 +1,8 @@
 package hello.controller;
 
+import hello.model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -8,6 +10,7 @@ import hello.model.Customer;
 import hello.repository.CustomerRepository;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -36,6 +39,18 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(customer);
+    }
+
+    // get all the jobs for a specific employee
+    @GetMapping("{id}/jobs")
+    public ResponseEntity<Set<Job>> getCustomersJobs(@PathVariable(value = "id") Long customerId) {
+        Customer customer = customerRepository.findOne(customerId);
+        if (customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // return ResponseEntity.ok().body(employee.getJobs());
+        return new ResponseEntity<>(customer.getJobs(), HttpStatus.OK);
     }
 
     @PutMapping("{id}")

@@ -2,7 +2,9 @@ package hello.controller;
 
 import javax.validation.Valid;
 
+import hello.model.Customer;
 import hello.model.Employee;
+import hello.repository.CustomerRepository;
 import hello.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class JobController {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @PostMapping("")
     public @ResponseBody
@@ -57,7 +62,7 @@ public class JobController {
     }
 
     // add an employee to a job
-    @PutMapping("{id}/{employeeId}")
+    @PutMapping("{id}/employee/{employeeId}")
     public ResponseEntity<Job> addEmployeeToJob(
             @PathVariable(value = "id") Long jobId,
             @PathVariable(value = "employeeId") Long employeeId
@@ -78,8 +83,30 @@ public class JobController {
         return ResponseEntity.ok(updatedJob);
     }
 
+    // add an employee to a job
+    @PutMapping("{id}/customer/{customerId}")
+    public ResponseEntity<Job> addCustomerToJob(
+            @PathVariable(value = "id") Long jobId,
+            @PathVariable(value = "customerId") Long customerId
+    ) {
+        Job job = jobRepository.findOne(jobId);
+        if (job == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Customer customer = customerRepository.findOne(customerId);
+        if (customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        job.setCustomer(customer);
+
+        Job updatedJob = jobRepository.save(job);
+
+        return ResponseEntity.ok(updatedJob);
+    }
+
     // remove an employee from a job TODO
-    @DeleteMapping("{id}/{employeeId}")
+    @DeleteMapping("{id}/employee/{employeeId}")
     public ResponseEntity<Job> deleteEmployeeFromJob(
             @PathVariable(value = "id") Long jobId,
             @PathVariable(value = "employeeId") Long employeeId

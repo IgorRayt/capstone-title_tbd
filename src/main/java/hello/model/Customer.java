@@ -1,12 +1,20 @@
 package hello.model;
 
-import javax.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Customer extends Person {
     private String cellPhoneNumber;
     private String workPhoneNumber;
     private String companyName;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private Set<Job> jobs = new HashSet<>();
 
     public String getCellPhoneNumber() {
         return cellPhoneNumber;
@@ -30,6 +38,14 @@ public class Customer extends Person {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
     }
 
     public Customer merge(Customer customerToMerge) {
