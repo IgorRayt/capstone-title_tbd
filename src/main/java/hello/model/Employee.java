@@ -15,7 +15,6 @@ public class Employee extends Person {
     private Date payrollStartDate;
     private String phoneNumber;
     private String postalCode;
-    private Long employmentID;
 
     @OneToOne(cascade = CascadeType.ALL)
     private EmergencyContact emergencyContact;
@@ -84,14 +83,6 @@ public class Employee extends Person {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
-    }
-
-    public Long getEmploymentID() {
-        return employmentID;
-    }
-
-    public void setEmploymentID(Long employmentID) {
-        this.employmentID = employmentID;
     }
 
     public EmergencyContact getEmergencyContact() {

@@ -2,6 +2,7 @@ package hello.controller;
 
 import javax.validation.Valid;
 
+import hello.EmptyJsonResponse;
 import hello.model.Customer;
 import hello.model.Employee;
 import hello.repository.CustomerRepository;
@@ -61,6 +62,22 @@ public class JobController {
         return ResponseEntity.ok(updatedJob);
     }
 
+    // set a job as available
+    @PutMapping("{id}/available/")
+    public ResponseEntity<Job> setJobAvailability(
+            @PathVariable(value = "id") Long jobId
+    ) {
+        Job job = jobRepository.findOne(jobId);
+        if (job == null) {
+            return ResponseEntity.notFound().build();
+        }
+        job.setAvailable(true);
+
+        Job updatedJob = jobRepository.save(job);
+
+        return ResponseEntity.ok(updatedJob);
+    }
+
     // add an employee to a job
     @PutMapping("{id}/employee/{employeeId}")
     public ResponseEntity<Job> addEmployeeToJob(
@@ -115,13 +132,13 @@ public class JobController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Job> deleteJob(@PathVariable(value = "id") Long jobId) {
+    public ResponseEntity deleteJob(@PathVariable(value = "id") Long jobId) {
         Job job = jobRepository.findOne(jobId);
         if (job == null) {
             return ResponseEntity.notFound().build();
         }
 
         jobRepository.delete(job);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
     }
 }

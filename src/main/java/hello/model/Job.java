@@ -14,7 +14,6 @@ public class Job {
     private Date dateClosed;
     private String description;
     private Boolean available;
-    private Long customerID;
 
     // make a table called "employee_assignments" to handle the ManyToMany relationship with Employee
     @ManyToMany
@@ -63,14 +62,6 @@ public class Job {
 
     public void setAvailable(Boolean available) {
         this.available = available;
-    }
-
-    public Long getCustomerID() {
-        return customerID;
-    }
-
-    public void setCustomerID(Long customerID) {
-        this.customerID = customerID;
     }
 
     public Set<Employee> getEmployees() {
