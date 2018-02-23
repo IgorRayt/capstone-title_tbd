@@ -1,5 +1,6 @@
 package hello.controller;
 
+import hello.EmptyJsonResponse;
 import hello.model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,13 +67,13 @@ public class CustomerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable(value = "id") Long customerId) {
+    public ResponseEntity deleteCustomer(@PathVariable(value = "id") Long customerId) {
         Customer customer = customerRepository.findOne(customerId);
         if (customer == null) {
             return ResponseEntity.notFound().build();
         }
 
         customerRepository.delete(customer);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
     }
 }
