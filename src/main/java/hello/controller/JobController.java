@@ -63,7 +63,7 @@ public class JobController {
     }
 
     // set a job as available
-    @PutMapping("{id}/available/")
+    @PutMapping("{id}/available")
     public ResponseEntity<Job> setJobAvailability(
             @PathVariable(value = "id") Long jobId
     ) {
