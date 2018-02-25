@@ -27,11 +27,6 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @GetMapping("/hello-oauth")
-    public String sayHello(Person principal) {
-        return "Hello, " + principal.getFirstName();
-    }
-
     @Bean
     public FilterRegistrationBean simpleCorsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
