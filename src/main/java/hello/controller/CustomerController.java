@@ -11,6 +11,7 @@ import hello.model.Customer;
 import hello.repository.CustomerRepository;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin
@@ -35,20 +36,22 @@ public class CustomerController {
 
     @GetMapping("{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") Long customerId) {
-        Customer customer = customerRepository.findOne(customerId);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (!optionalCustomer.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Customer customer = optionalCustomer.get();
         return ResponseEntity.ok().body(customer);
     }
 
     // get all the jobs for a specific employee
     @GetMapping("{id}/jobs")
     public ResponseEntity<Set<Job>> getCustomersJobs(@PathVariable(value = "id") Long customerId) {
-        Customer customer = customerRepository.findOne(customerId);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (!optionalCustomer.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Customer customer = optionalCustomer.get();
 
         // return ResponseEntity.ok().body(employee.getJobs());
         return new ResponseEntity<>(customer.getJobs(), HttpStatus.OK);
@@ -57,10 +60,11 @@ public class CustomerController {
     @PutMapping("{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable(value = "id") Long customerId,
                                                    @Valid @RequestBody Customer customerDetails) {
-        Customer customer = customerRepository.findOne(customerId);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (!optionalCustomer.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Customer customer = optionalCustomer.get();
 
         Customer updatedCustomer = customerRepository.save(customer.merge(customerDetails));
         return ResponseEntity.ok(updatedCustomer);
@@ -68,10 +72,11 @@ public class CustomerController {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteCustomer(@PathVariable(value = "id") Long customerId) {
-        Customer customer = customerRepository.findOne(customerId);
-        if (customer == null) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (!optionalCustomer.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Customer customer = optionalCustomer.get();
 
         customerRepository.delete(customer);
         return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);

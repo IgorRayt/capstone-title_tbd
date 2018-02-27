@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import hello.model.Job;
 import hello.repository.JobRepository;
 
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping(path = "job")
@@ -43,20 +45,23 @@ public class JobController {
 
     @GetMapping("{id}")
     public ResponseEntity<Job> getJobById(@PathVariable(value = "id") Long jobId) {
-        Job job = jobRepository.findOne(jobId);
-        if (job == null) {
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (!optionalJob.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Job job = optionalJob.get();
+
         return ResponseEntity.ok().body(job);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Job> updateJob(@PathVariable(value = "id") Long jobId,
                                          @Valid @RequestBody Job jobDetails) {
-        Job job = jobRepository.findOne(jobId);
-        if (job == null) {
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (!optionalJob.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Job job = optionalJob.get();
 
         Job updatedJob = jobRepository.save(job.merge(jobDetails));
         return ResponseEntity.ok(updatedJob);
@@ -67,10 +72,12 @@ public class JobController {
     public ResponseEntity<Job> setJobAvailability(
             @PathVariable(value = "id") Long jobId
     ) {
-        Job job = jobRepository.findOne(jobId);
-        if (job == null) {
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (!optionalJob.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Job job = optionalJob.get();
+
         job.setAvailable(true);
 
         Job updatedJob = jobRepository.save(job);
@@ -84,14 +91,17 @@ public class JobController {
             @PathVariable(value = "id") Long jobId,
             @PathVariable(value = "employeeId") Long employeeId
     ) {
-        Job job = jobRepository.findOne(jobId);
-        if (job == null) {
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (!optionalJob.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        Employee employee = employeeRepository.findOne(employeeId);
-        if (employee == null) {
+        Job job = optionalJob.get();
+
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+        if (!optionalEmployee.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Employee employee = optionalEmployee.get();
 
         job.getEmployees().add(employee);
 
@@ -106,14 +116,17 @@ public class JobController {
             @PathVariable(value = "id") Long jobId,
             @PathVariable(value = "customerId") Long customerId
     ) {
-        Job job = jobRepository.findOne(jobId);
-        if (job == null) {
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (!optionalJob.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        Customer customer = customerRepository.findOne(customerId);
-        if (customer == null) {
+        Job job = optionalJob.get();
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (!optionalCustomer.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Customer customer = optionalCustomer.get();
 
         job.setCustomer(customer);
 
@@ -133,10 +146,11 @@ public class JobController {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteJob(@PathVariable(value = "id") Long jobId) {
-        Job job = jobRepository.findOne(jobId);
-        if (job == null) {
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (!optionalJob.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Job job = optionalJob.get();
 
         jobRepository.delete(job);
         return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
