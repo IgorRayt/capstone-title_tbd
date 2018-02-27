@@ -11,6 +11,7 @@ import hello.model.Employee;
 import hello.repository.EmployeeRepository;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin
@@ -37,20 +38,22 @@ public class EmployeeController {
     // get a specific employee
     @GetMapping("{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId) {
-        Employee employee = employeeRepository.findOne(employeeId);
-        if (employee == null) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+        if (!optionalEmployee.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Employee employee = optionalEmployee.get();
         return ResponseEntity.ok().body(employee);
     }
 
     // get all the jobs for a specific employee
     @GetMapping("{id}/jobs")
     public ResponseEntity<Set<Job>> getEmployeesJobs(@PathVariable(value = "id") Long employeeId) {
-        Employee employee = employeeRepository.findOne(employeeId);
-        if (employee == null) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+        if (!optionalEmployee.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Employee employee = optionalEmployee.get();
 
         // return ResponseEntity.ok().body(employee.getJobs());
         return new ResponseEntity<>(employee.getJobs(), HttpStatus.OK);
@@ -60,10 +63,11 @@ public class EmployeeController {
     @PutMapping("{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Long employeeId,
                                                    @Valid @RequestBody Employee employeeDetails) {
-        Employee employee = employeeRepository.findOne(employeeId);
-        if (employee == null) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+        if (!optionalEmployee.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Employee employee = optionalEmployee.get();
 
         Employee updatedEmployee = employeeRepository.save(employee.merge(employeeDetails));
         return ResponseEntity.ok(updatedEmployee);
@@ -72,10 +76,11 @@ public class EmployeeController {
     // delete an employee
     @DeleteMapping("{id}")
     public ResponseEntity deleteEmployee(@PathVariable(value = "id") Long employeeId) {
-        Employee employee = employeeRepository.findOne(employeeId);
-        if (employee == null) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+        if (!optionalEmployee.isPresent()) {
             return ResponseEntity.notFound().build();
         }
+        Employee employee = optionalEmployee.get();
 
         employeeRepository.delete(employee);
         return new ResponseEntity<>(new EmptyJsonResponse(), HttpStatus.OK);
