@@ -29,6 +29,10 @@ public class Employee extends Person {
     @ManyToMany(mappedBy = "employees")
     private Set<Job> jobs = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "employee")
+    private Set<JobHours> jobHours = new HashSet<>();
+
     public Date getBirthDate() {
         return birthDate;
     }

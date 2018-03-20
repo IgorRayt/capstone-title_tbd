@@ -1,5 +1,7 @@
 package hello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 import java.sql.Date;
@@ -23,6 +25,14 @@ public class Job {
     @ManyToOne
     @PrimaryKeyJoinColumn
     private Customer customer;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "job")
+    private Set<JobHours> jobHours = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "job")
+    private Set<Material> materials = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -78,6 +88,22 @@ public class Job {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Set<JobHours> getJobHours() {
+        return jobHours;
+    }
+
+    public void setJobHours(Set<JobHours> jobHours) {
+        this.jobHours = jobHours;
+    }
+
+    public Set<Material> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(Set<Material> materials) {
+        this.materials = materials;
     }
 
     public Job merge(Job jobToMerge) {

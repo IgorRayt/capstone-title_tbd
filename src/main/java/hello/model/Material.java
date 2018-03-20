@@ -1,5 +1,7 @@
 package hello.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,11 @@ public class Material {
     private String description;
     private String supplier;
     private Double cost;
+
+    @JsonIgnore
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Job job;
 
     public Long getId() {
         return id;
@@ -42,5 +49,18 @@ public class Material {
 
     public void setCost(Double cost) {
         this.cost = cost;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public Material merge(Material materialToMerge) {
+        materialToMerge.setId(this.getId());
+        return materialToMerge;
     }
 }
