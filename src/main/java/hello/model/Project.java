@@ -13,6 +13,13 @@ public class Project {
     private Date dateClosed;
     private String description;
 
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private Customer customer;
+
+    @OneToOne
+    private Invoice invoice;
+
     public Long getId() {
         return id;
     }
@@ -43,5 +50,26 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public Project merge(Project projectToMerge) {
+        projectToMerge.setId(this.getId());
+        return projectToMerge;
     }
 }

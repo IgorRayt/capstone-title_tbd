@@ -14,6 +14,10 @@ public class Customer extends Person {
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
+    private Set<Project> projects = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
     private Set<Job> jobs = new HashSet<>();
 
     public String getCellPhoneNumber() {
@@ -46,6 +50,14 @@ public class Customer extends Person {
 
     public void setJobs(Set<Job> jobs) {
         this.jobs = jobs;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     public Customer merge(Customer customerToMerge) {
