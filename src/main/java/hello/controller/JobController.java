@@ -35,18 +35,18 @@ public class JobController {
     public ResponseEntity<?> createJob(@Valid @RequestBody Job job) {
         String error = "";
         if (job.getDateOpened() == null) {
-            error += "Date opened cannot be null";
+            error += "Date opened cannot be null. ";
         } else {
             if (job.getDateOpened().getTime() < System.currentTimeMillis()) {
-                error += "Job cannot be opened in the past\n";
+                error += "Job cannot be opened in the past. ";
             }
             if (job.getDateClosed() != null && job.getDateOpened().getTime() > job.getDateClosed().getTime()) {
-                error += "Job open date cannot be after the job close date\n";
+                error += "Job open date cannot be after the job close date. ";
             }
         }
 
         if (job.getDescription() == null || job.getDescription().equals("")) {
-            error += "Job description cannot be empty\n";
+            error += "Job description cannot be empty. ";
         }
         if (job.getAvailable() == null) {
             job.setAvailable(false);
@@ -80,18 +80,18 @@ public class JobController {
                                        @Valid @RequestBody Job jobDetails) {
         String error = "";
         if (jobDetails.getDateOpened() == null) {
-            error += "Date opened cannot be null";
+            error += "Date opened cannot be null. ";
         } else {
             if (jobDetails.getDateOpened().getTime() < System.currentTimeMillis()) {
-                error += "Job cannot be opened in the past\n";
+                error += "Job cannot be opened in the past. ";
             }
             if (jobDetails.getDateClosed() != null && jobDetails.getDateOpened().getTime() > jobDetails.getDateClosed().getTime()) {
-                error += "Job open date cannot be after the job close date\n";
+                error += "Job open date cannot be after the job close date. ";
             }
         }
 
         if (jobDetails.getDescription() == null || jobDetails.getDescription().equals("")) {
-            error += "Job description cannot be empty\n";
+            error += "Job description cannot be empty. ";
         }
         if (jobDetails.getAvailable() == null) {
             jobDetails.setAvailable(false);
